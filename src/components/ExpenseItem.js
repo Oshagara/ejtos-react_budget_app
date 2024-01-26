@@ -1,36 +1,29 @@
 import React, { useContext } from 'react';
-import { TiDelete } from 'react-icons/ti';
 import { AppContext } from '../context/AppContext';
+import { FaTimesCircle } from 'react-icons/fa';
 
 const ExpenseItem = (props) => {
-    const { dispatch } = useContext(AppContext);
+    const { dispatch, Currency} = useContext(AppContext);
 
-    const handleDeleteExpense = () => {
-        dispatch({
-            type: 'DELETE_EXPENSE',
-            payload: props.id,
-        });
-    };
-
-    const increaseAllocation = (name) => {
-        const expense = {
-            name: name,
-            cost: 10,
+    const handleDeleteItem = () => {
+        const item = {
+            name: props.name,
         };
 
         dispatch({
-            type: 'ADD_EXPENSE',
-            payload: expense
+            type: 'DELETE_ITEM',
+            payload: item,
         });
+    };
 
-    }
 
     return (
         <tr>
         <td>{props.name}</td>
-        <td>£{props.cost}</td>
-        <td><button onClick={event=> increaseAllocation(props.name)}>+</button></td>
-        <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
+        <td>{props.quantity}</td>
+        <td>{Currency}{parseInt(props.unitprice)}</td>
+        <td>{Currency}{parseInt(props.quantity)*parseInt(props.unitprice)}</td>
+        <td><FaTimesCircle size='2.2em' color="red" onClick={handleDeleteItem}></FaTimesCircle></td>
         </tr>
     );
 };
